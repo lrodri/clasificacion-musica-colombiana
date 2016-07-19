@@ -12,9 +12,9 @@ t_i=sprintf('-%03d', tiempo(1))
 t_f=sprintf('-%03d', tiempo(2))
 end
 
-arch_wav=[archivo_sin_extension '.wav']
-arch_png=[archivo_sin_extension t_i t_f '.png']
-arch_pdf=[archivo_sin_extension t_i t_f '.pdf']
+arch_wav=['canciones/bambuco/' archivo_sin_extension '.wav']
+arch_png=['imagen/' archivo_sin_extension t_i t_f '.png']
+arch_pdf=['espectro/' archivo_sin_extension t_i t_f '.pdf']
 
 [mat,fs]=similaridad(arch_wav, tiempo, arch_png);
 

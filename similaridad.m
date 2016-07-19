@@ -17,7 +17,7 @@ function [diferente, Fs] = similaridad(cancion,tiempo,imagen)
  %% ver "The beat spectrum: a new approach to rhythm analisis"
  %% Jonathan Foote y Shingo Uchihashi
  
- vent=2^8; % tamaÃ±o de ventana 
+ vent=2^8; % tamaño de ventana 
  [Y,Fs,bps]=wavread(cancion,[1 100]); %leemos frecuencia de muestreo Fs
  Fs
  %Fs=Fs*2
@@ -43,7 +43,7 @@ end
         %xxx=input('___')   
                 
         marcos_sup=(n_marcos+1)*2-1;
-        parametros=zeros(marcos_sup, vent);
+        parametros=zeros(marcos_sup, vent/2+1);
 
       for i=0:marcos_sup-1
         inicio=i*(vent/2)+1;
@@ -55,9 +55,9 @@ end
 
     for i=1:marcos_sup
           for j=1:marcos_sup
-              if j>=i
+              %if j>=i
               diferente(i,j) = angulo_coseno(parametros(i,:), parametros(j,:));
-              end
+              %end
           end
     end
     imwrite(real(diferente), imagen);
@@ -117,11 +117,17 @@ end
 
 
 function v = param_vec(d, vent, ts)
-    v=fft(d);
-    v=fftshift(v);
-    %v=log10(g);
-    dw=1/(vent*ts);
-    w=(-vent/2:vent/2-1)*dw;
+    tf=fft(d);
+    v=fftshift(tf);
+    N=length(v);
+    fs=1/ts;
+    f=fs*(-N/2:N/2-1)/N;
+    v=log10(abs(v));
+    %plot(f(N/2:N),v(N/2:N));
+    v=v(N/2:N);
+    %ss=input('hola')
+    %dw=1/(vent*ts);
+    %w=(-vent/2:vent/2-1)*dw;
     %plot(w,v)
     %sss=input('escriba algo');
     %http://www.sc.ehu.es/sbweb/energias-renovables/MATLAB/datos/fourier/fourier_1.html
@@ -130,6 +136,6 @@ end
 function d = angulo_coseno(vi,vj)
     a=norm(vi);
     b=norm(vj);
-    p=vi*vj';
+    p=dot(vi,vj);
     d=p/a/b;
 end

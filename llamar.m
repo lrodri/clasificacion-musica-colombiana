@@ -1,3 +1,3 @@
 close all; clear all; clc
 
-graficar('rock', 2)
+graficar('Porro_Atlantico', 1)
